@@ -6,7 +6,7 @@ export class OrderStore {
     try {
       const sql = `insert into orders (user_id, status) values ($1, 'active') returning *`;
       const { rows } = await client.query(sql, [userId]);
-      return rows;
+      return rows[0];
     } catch (err) {
       throw new Error(`Error while creating order, Error: ${err}`);
     } finally {

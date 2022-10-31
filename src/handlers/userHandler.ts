@@ -22,8 +22,7 @@ export const create = async (req: Request, res: Response) => {
     );
     if (user_id) {
       const token = signToken(user_id);
-
-      res.json({ token });
+      res.json({ token, userId: user_id });
       return;
     }
     res.send({ result: null });
@@ -41,17 +40,20 @@ export const show = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
-    console.log(username, password);
     const user = await store.findUser(username);
-    console.log(user);
     if (!user) throw new Error(`No user with this Username ${username}`);
     const match = await compHash(password, user.password_hash);
-    console.log(match);
     if (!match) throw new Error("Incorrect password");
     const token = signToken(user.user_id);
-    console.log(token);
     res.json({ token });
   } catch (err) {
     res.status(401).send(err);
   }
-}
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  console.log({ id })
+  const result = await store.deleteUser(id);
+  res.status(204).json({ result: "deleted succesfully" });
+};

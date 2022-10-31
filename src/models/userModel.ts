@@ -1,7 +1,7 @@
 import pool from "../db";
 
 interface User {
-  user_id: number,
+  user_id?: number,
   first_name: string;
   last_name: string;
   username: string;
@@ -16,7 +16,7 @@ export class UserStore {
       const { rows } = await client.query(sql);
       return rows;
     } catch (err) {
-      console.log(err);
+      throw new Error(`An Error found in userstore ${err}`)
     } finally {
       client.release();
     }
@@ -60,8 +60,7 @@ export class UserStore {
     try {
       const sql = `select * from users where username= $1`
       const { rows } = await client.query(sql, [username]);
-      console.log("finding error", rows);
-      if(!rows.length) throw new Error(`no user with this ${username} username`)
+      if (!rows.length) throw new Error(`no user with this ${username} username`)
       return rows[0];
     } catch (err) {
       throw new Error("filed to connect to database");
@@ -69,4 +68,19 @@ export class UserStore {
       client.release();
     }
   }
+
+  async deleteUser(id: string | number) {
+    const client = await pool.connect();
+    try {
+      const sql = `delete from users where user_id= $1`
+      const { rows } = await client.query(sql, [id]);
+      // if (!rows.length) throw new Error(`no user with this ${id} username`);
+      return ;
+    } catch (err) {
+      throw new Error("filed to connect to database");
+    } finally {
+      client.release();
+    }
+  }
+
 }

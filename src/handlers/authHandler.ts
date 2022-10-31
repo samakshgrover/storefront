@@ -7,7 +7,6 @@ export const makeHash = async (pass: string) => {
     pass + process.env.PEPER,
     parseInt(process.env.SALT!)
   );
-  console.log(hash);
   return hash;
 };
 
@@ -32,7 +31,6 @@ export const authenticate = (
   if (token) {
     const { userId } = jwt.verify(token, process.env.JWT_SECRET!) as any;
     req.body.userId = userId;
-    console.log(userId);
     next();
   } else {
     res.status(401).json({ res: "please login before accessing this route" })

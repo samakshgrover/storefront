@@ -1,17 +1,17 @@
-import { Pool } from "pg";
+import dotenv from "dotenv"
+import { ClientConfig, Pool } from "pg"
 
-const {
-  PGHOST: host,
-  PGUSER: user,
-  PGPASSWORD: password,
-  PGDATABASE: database,
-} = process.env;
+dotenv.config()
 
-const pool = new Pool({
-  host,
-  database,
-  user,
-  password,
-});
+const config: ClientConfig = {
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  user: process.env.PGUSER,
+  password: process.env.PGPASSWORD
+}
 
-export default pool;
+if (process.env.ENV === "test") {
+  config.database = process.env.PGDATABASE_TEST
+}
+
+export default new Pool(config)

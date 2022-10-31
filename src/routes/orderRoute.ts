@@ -1,11 +1,12 @@
 import { Router } from "express";
+import { authenticate } from "../handlers/authHandler";
 import { addOrder, addProducts, index, removeOrder } from "../handlers/orderHandler";
 
 const router = Router();
 
-router.get('/', index);
-router.post('/:userId', addOrder);
-router.delete('/:orderId', removeOrder);
-router.post('/:orderId/products', addProducts);
+router.get('/', authenticate, index);
+router.post('/:userId', authenticate, addOrder);
+router.delete('/:orderId', authenticate, removeOrder);
+router.post('/:orderId/products', authenticate, addProducts);
 
 export default router;

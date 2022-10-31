@@ -5,7 +5,7 @@ import { create, index, productsByCategory, show } from "../handlers/productHand
 const router = Router()
 
 router.get('/', index);
-router.post('/', authenticate,create);
+router.post('/', authenticate, create);
 router.get('/:id', show);
 router.get('/category/:category', productsByCategory);
 

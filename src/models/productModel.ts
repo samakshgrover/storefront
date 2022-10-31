@@ -13,7 +13,7 @@ export class ProductStore {
     }
   }
 
-  async create(name: string, price: number, category: string) {
+  async create(name: string, price: number, category: string | null = null) {
     const client = await pool.connect();
     try {
       const sql = `
@@ -21,7 +21,7 @@ export class ProductStore {
       values ($1, $2, $3) returning *
       `
       const { rows } = await client.query(sql, [name, price, category])
-      return rows
+      return rows[0];
     } catch (err) {
       throw new Error("Error inserting into products")
     }
