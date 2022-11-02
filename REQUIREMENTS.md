@@ -66,20 +66,20 @@ These are the notes from a meeting with the frontend developer that describe wha
   )
 
 - Table Products(
-  product_id serial primary key,
-  name varchar not null,
-  price int not null,
-  category varchar(50)
+  product_id primary key,
+  name varchar,
+  price int,
+  category varchar
   )
 
 - Table Orders(
-  order_id serial primary key,
-  user_id int references users(user_id),
-  status varchar(50) not null
+  order_id primary key,
+  user_id int foreign key to users table,
+  status varchar
   )
 
 - Table ordered_prodects(
-  order_id int references orders(order_id),
-  product_id int references products(product_id),
-  quantity int not null
+  order_id int foreign key to orders table,
+  product_id int foreign key to products table ,
+  quantity int
   )

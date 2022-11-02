@@ -5,22 +5,19 @@ create table if not exists users(
   username varchar not null unique,
   password_hash varchar not null
 );
-
 create table if not exists products(
   product_id serial primary key,
   name varchar not null,
   price int not null,
   category varchar(50)
 );
-
 create table if not exists orders(
   order_id serial primary key,
-  user_id int references users(user_id),
+  user_id int references users(user_id) on delete cascade,
   status varchar(50) not null
 );
-
 create table if not exists ordered_products(
-  order_id int references orders(order_id),
-  product_id int references products(product_id),
+  order_id int references orders(order_id) on delete cascade,
+  product_id int references products(product_id) on delete cascade,
   quantity int not null
 );
