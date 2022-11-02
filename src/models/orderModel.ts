@@ -1,6 +1,7 @@
 import pool from "../db";
 
 export class OrderStore {
+
   async addOrder(userId: number | string) {
     const client = await pool.connect();
     try {

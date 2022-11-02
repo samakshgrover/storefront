@@ -7,7 +7,7 @@
     "start": "node src/server.ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
     "tsc": "tsc",
-    "test": "ENV=test npm run db:up && npm run jasmine || npm run db:down",
+    "test": "ENV=test npm run db:up && npm run jasmine && npm run db:down",
     "db:down": "db-migrate --env test down",
     "db:up": "db-migrate --env test up",
     "jasmine": "ENV=test jasmine-ts --config jasmine.json"

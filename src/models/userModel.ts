@@ -42,12 +42,12 @@ export class UserStore {
     }
   }
 
-  async show(id: number): Promise<any[] | undefined> {
+  async show(id: number | string) {
     const client = await pool.connect();
     try {
       const sql = `select * from users where user_id = $1`;
       const { rows } = await client.query(sql, [id]);
-      return rows;
+      return rows[0];
     } catch (err) {
       console.log(err);
     } finally {
@@ -72,10 +72,10 @@ export class UserStore {
   async deleteUser(id: string | number) {
     const client = await pool.connect();
     try {
-      const sql = `delete from users where user_id= $1`
+      const sql = `delete from users where user_id= $1 returning *`
       const { rows } = await client.query(sql, [id]);
       // if (!rows.length) throw new Error(`no user with this ${id} username`);
-      return ;
+      return rows[0];
     } catch (err) {
       throw new Error("filed to connect to database");
     } finally {

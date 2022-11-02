@@ -32,7 +32,7 @@ export class ProductStore {
     try {
       const sql = `select * from products where product_id = $1`
       const { rows } = await client.query(sql, [id]);
-      return rows
+      return rows[0]
     } catch (err) {
       throw new Error("Error while finding product in database")
     } finally {
