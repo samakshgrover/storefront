@@ -54,3 +54,32 @@ These are the notes from a meeting with the frontend developer that describe wha
 - quantity of each product in the order
 - user_id
 - status of order (active or complete)
+
+## Database Tables
+
+- Table Users(
+  user_id serial primary key,
+  first_name varchar,
+  last_name varchar,
+  username varchar not null unique,
+  password_hash varchar not null
+  )
+
+- Table Products(
+  product_id serial primary key,
+  name varchar not null,
+  price int not null,
+  category varchar(50)
+  )
+
+- Table Orders(
+  order_id serial primary key,
+  user_id int references users(user_id),
+  status varchar(50) not null
+  )
+
+- Table ordered_prodects(
+  order_id int references orders(order_id),
+  product_id int references products(product_id),
+  quantity int not null
+  )
